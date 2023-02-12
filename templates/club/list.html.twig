@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+{% if formations is defined and formations|length > 0 %}
+
+    <h1 class="center-text">Liste des formations</h1>
+    <table class="center-text" style="margin: 0 auto;">
+        <thead >
+            <tr >
+                <th>Référence</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Nombre de participants</th>
+                 <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for formation in formations %}
+                <tr>
+                 
+                    <td>{{ formation.ref }}</td>
+                    <td>{{ formation.Titre |upper }}</td>
+                    <td>{{ formation.Description }}</td>
+                    <td>{{ formation.date_debut }}</td>
+                    <td>{{ formation.date_fin }}</td>
+                    <td>{{ formation.nb_participants }}</td>
+                    {% if formation.nb_participants == 0 %}
+            <td><a href="{{ path('formation_detail', {'titre': formation.Titre}) }}">Participer</a></td>
+        {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1 class="center-text">nombre de formations =  {{ formations|length }}</h1>
+
+ <h1 class="center-text">Titres des formations théoriques :</h1>
+<table class="center-text" style="margin: 0 auto;">
+{% for formation in formations %}
+    {% if formation.Description == 'Formation théorique' %}
+    <tr>
+        <td>{{ formation.Titre|upper }}</td>
+        </tr>
+    {% endif %}
+{% endfor %}
+   </table>
+
+{% set formations = formations|sort((a, b) => a.nb_participants < b.nb_participants) %}
+{% set bestFormation = formations[0] %}
+
+ <h1 class="center-text">Formation avec le plus grand nombre de participants:  </h1> <p class="center-text"> {{ bestFormation.Titre }} </p>
+
+{% set total = 0 %}
+{% for formation in formations %}
+    {% set total = total + formation.nb_participants %}
+{% endfor %}
+<h1 class="center-text"> Nombre total de participants = {{ total }}  </h1>
+
+{% else %}
+    <h1 class="center-text"> Aucune formation n'est disponible. </h1>
+{% endif %}
+
+{% endblock %} 

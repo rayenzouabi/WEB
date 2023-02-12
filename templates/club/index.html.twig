@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+  <h1 class="center-text">{{ titre }}</h1>
+</head>
+<body>
+    
+    <p class="center-text">{{ description }}</p>
+    <img src="{{ asset(image) }}" class="center-image">
+</body>
+</html>
+{% endblock %} 
